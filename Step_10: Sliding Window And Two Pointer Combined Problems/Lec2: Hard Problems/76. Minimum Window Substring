@@ -1,0 +1,43 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        if (s.empty() || t.empty()) return "";
+
+        unordered_map<char, int> targetFreq;
+        for (char c : t) {
+            targetFreq[c]++;
+        }
+
+        unordered_map<char, int> windowFreq;
+        int have = 0, need = targetFreq.size();
+        int left = 0;
+        int minLen = INT_MAX;
+        int minStart = 0;
+
+        for (int right = 0; right < s.size(); right++) {
+            char c = s[right];
+            windowFreq[c]++;
+
+            if (targetFreq.count(c) && windowFreq[c] == targetFreq[c]) {
+                have++;
+            }
+
+            while (have == need) {
+                // Update result if smaller window found
+                if (right - left + 1 < minLen) {
+                    minLen = right - left + 1;
+                    minStart = left;
+                }
+
+                // Try to shrink the window
+                windowFreq[s[left]]--;
+                if (targetFreq.count(s[left]) && windowFreq[s[left]] < targetFreq[s[left]]) {
+                    have--;
+                }
+                left++;
+            }
+        }
+
+        return minLen == INT_MAX ? "" : s.substr(minStart, minLen);
+    }
+};
