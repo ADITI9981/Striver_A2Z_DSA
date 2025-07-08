@@ -4,13 +4,12 @@ public:
         int l=0,r=0,count=0;
         sort(g.begin(),g.end());
         sort(s.begin(),s.end());
-        while(l<g.size() && r<s.size()){
-            if(s[r]>=g[r]){
-                count++;
-                l++;
+        while(l<s.size() && r<g.size()){
+            if(g[r]<=s[l]){
+                r++;
             }
-            r++;
+            l++;
         }
-        return count;
+        return r;
     }
 };
