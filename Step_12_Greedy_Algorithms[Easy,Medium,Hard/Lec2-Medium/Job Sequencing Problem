@@ -1,0 +1,40 @@
+struct Item{
+    int profit;
+    int deadline;
+};
+
+class Solution {
+  public:
+    static bool comp(Item a, Item b) {
+        return a.profit>b.profit;
+    }
+    
+    vector<int> jobSequencing(vector<int> &deadline, vector<int> &profit) {
+        
+        vector<Item> items;
+        for (int i = 0; i < profit.size(); i++) {
+            items.push_back({profit[i],deadline[i]});
+        }
+        
+        sort(items.begin(),items.end(),comp);
+        int jobs=0,Tprofit=0,maxdead=-1;
+        
+        for(int i=0;i<deadline.size();i++){
+            maxdead=max(maxdead,items[i].deadline);
+        }
+        
+        vector<int> hash(maxdead+1,-1);
+        
+        for(int i=0;i<deadline.size();i++){
+            for(int j=items[i].deadline;j>0;j--){
+                if(hash[j] == -1){
+                    hash[j] =i;
+                    jobs=jobs+1;
+                    Tprofit+=items[i].profit;
+                    break;
+                }
+            }
+        }
+        return {jobs,Tprofit};
+    }
+};
