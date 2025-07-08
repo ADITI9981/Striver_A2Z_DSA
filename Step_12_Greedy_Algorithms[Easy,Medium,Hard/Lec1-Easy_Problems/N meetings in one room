@@ -1,0 +1,36 @@
+struct Data{
+    int start;
+    int end;
+    int pos;
+};
+class Solution {
+  public:
+            
+    static bool comp(Data a, Data b) {
+        if (a.end == b.end) return a.pos < b.pos;
+        return a.end < b.end;
+    }
+
+    int maxMeetings(vector<int>& start, vector<int>& end) {
+        int n = end.size();
+        vector<Data> arr; 
+        for(int i=0;i<n;i++){
+            arr.push_back({start[i], end[i], i + 1});
+        }
+        sort(arr.begin(),arr.end(), comp);
+        int freetime=arr[0].end;
+        int count=1;
+        vector<int> ds;
+        ds.push_back(arr[0].pos);
+        
+        for(int i=1;i<n;i++){
+            if(arr[i].start > freetime){
+                count=count+1;
+                freetime = arr[i].end;
+                ds.push_back(arr[i].pos);
+            }
+        }
+        return count;
+        
+    }
+};
