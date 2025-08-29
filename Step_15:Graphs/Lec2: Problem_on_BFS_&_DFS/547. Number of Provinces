@@ -1,1 +1,25 @@
+class Solution {
+private:
+    void dfshelper(int node,vector<vector<int>> &adj, vector<int> &vis){
+        vis[node] = 1;
+        for (int j = 0; j < adj[node].size(); j++) {
+            if (adj[node][j] == 1 && !vis[j]) {
+                dfshelper(j, adj, vis);
+            }
+        }
+    }
+public:
+    int findCircleNum(vector<vector<int>>& isConnected) {
+       int n = isConnected.size();
+        vector<int> vis(n, 0);
+        int count = 0;
 
+        for (int i = 0; i < n; i++) {
+            if (!vis[i]) {
+                count++;  // new province found
+                dfshelper(i, isConnected, vis);
+            }
+        }
+        return count;
+    }
+};
