@@ -1,2 +1,2 @@
-# Striver A2Z Data Structure
+# Striver A2Z Data Structures
 
